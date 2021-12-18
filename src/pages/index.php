@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-	<title>Home | EaseStudy - Learning app</title>
+	<title>Home | JiltMaths - Learning app</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- <link rel="stylesheet" href="styles.css"> -->
@@ -216,7 +216,7 @@
 		<div class="clearfix"></div>
 
 		<footer>
-			<p class="copyright">&copy; 2021 <a href="https://jiltMaths.campusinsider.net" target="_blank">JiltMaths</a>. All Rights Reserved.</p>
+			<p class="copyright">&copy; 2021 <a href="https://jiltMaths.hosted.buzz" target="_blank">JiltMaths</a>. All Rights Reserved.</p>
 		</footer>
 	</div>
 	<!-- END WRAPPER -->
