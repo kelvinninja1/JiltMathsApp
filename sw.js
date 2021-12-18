@@ -1,4 +1,4 @@
-const cacheName = 'EaseStudy-v1.2';
+const cacheName = 'JiltMaths-v1.2';
 
 const staticAssets = [
   './',
@@ -22,22 +22,6 @@ const staticAssets = [
   './static/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js',
   './static/assets/vendor/toastr/toastr.js',
   './static/assets/scripts/common.js',
-  './contents/english/2017-obj.json',
-  './contents/english/2017-written.json',
-  './contents/english/2018-written.json',
-  './contents/english/2018-obj.json',
-  './contents/maths/2017-obj.json',
-  './contents/maths/2017-written.json',
-  './contents/maths/2018-written.json',
-  './contents/maths/2018-obj.json',
-  './contents/science/2017-obj.json',
-  './contents/science/2017-written.json',
-  './contents/science/2018-written.json',
-  './contents/science/2018-obj.json',
-  './contents/social/2017-obj.json',
-  './contents/social/2017-written.json',
-  './contents/social/2018-written.json',
-  './contents/social/2018-obj.json'
 ];
 
 self.addEventListener('install', async function () {
@@ -65,7 +49,7 @@ async function cacheFirst(request) {
 }
 
 async function networkFirst(request) {
-  const dynamicCache = await caches.open('EaseStudy-v1.2');
+  const dynamicCache = await caches.open('JiltMaths-v1.2');
   try {
     const networkResponse = await fetch(request);
     dynamicCache.put(request, networkResponse.clone());
