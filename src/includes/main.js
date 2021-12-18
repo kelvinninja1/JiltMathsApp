@@ -1,22 +1,18 @@
-var objSet = [];
+const objSet = [];
 
-var studentName = '';
-var recordList = [];
-var mode = "interactive";
+let studentName = '';
+let recordList = [];
+let mode = "interactive";
 
-var levelName = '';
-var levelQNs = '';
-var testDate = '';
-var quizDate = '';
-var fromTime = '';
-var toTime = '';
-
-var levelNotice = "let's solve the awesome quiz below.";
-var objectivesInstructions = "Choose from the multi-choice options";
-var writtenInstructions = "Solve This At Your Own Pace";
-
-var homeView = "";
-var quizView = "";
+let levelName = '';
+let levelQNs = '';
+let testDate = '';
+let quizDate = '';
+let fromTime = '';
+let toTime = '';
+const objectivesInstructions = "Choose from the multi-choice options";
+let homeView = "";
+let quizView = "";
 
 function loadPages() {
   homeView = getPageView("#homeView");
@@ -24,29 +20,27 @@ function loadPages() {
 }
 
 function getPageView(viewID) {
-  viewData = $(viewID).html();
+  let viewData = $(viewID).html();
   $(viewID).html("");
   return viewData;
 }
 
 $(document).ready(function(){
-loadPages();
- // Show the Modal on load
-checkAccount();
-activateMode();
-console.log("What is mode again: "+mode);
- var upcount = 0;
-
- console.log("homepage is active");
- $('#main-contentArea').html(homeView);
+  loadPages();
+   // Show the Modal on load
+  checkAccount();
+  activateMode();
+  console.log("What is mode again: "+mode);
+  console.log("homepage is active");
+  $('#main-contentArea').html(homeView);
 
 });
 
 function study(level){
-  var level = level;
-  var QNsID = level+'-QNs';
-  var QNs = $('#'+QNsID).val();
-  levelName = "Level ".level;
+  const QNsID = 'level' + level + '-QNs';
+  console.log(QNsID);
+  const QNs = $('#' + QNsID).val();
+  levelName = "Level "+level;
   levelQNs = QNs;
 
   console.log("Study button Clicked");
@@ -55,28 +49,26 @@ function study(level){
   console.log(QNs);
 
  $('#main-contentArea').html(quizView);
- $('#level-header').html(levelName+' - '+levelQNs+ ' Questions');
+ $('#level-header').html(levelName+' Maths - '+levelQNs+ ' MCQs');
  $('#objectives-instructions').html(objectivesInstructions);
- fetchJSON('mcqs/'+level+'/', levelQNs);
+ fetchJSON('mcq/level/'+level+'/qns/', levelQNs);
  testDate = new Date();
- var realMonth = testDate.getMonth()+1;
- quizDate = testDate.getFullYear()+'/'+realMonth+'/'+testDate.getDate();
+  const realMonth = testDate.getMonth() + 1;
+  quizDate = testDate.getFullYear()+'/'+realMonth+'/'+testDate.getDate();
  fromTime = testDate.getHours()+':'+testDate.getMinutes();
 
- var sideAssessmentView = '<h2 style="font-size: 16px; margin-bottom: 15px; font-weight: 700;">'+levelName+' '+levelQNs+'</h2><a class="btn btn-primary" onclick="viewAssessment()" data-toggle="modal" data-target="#assessModal">VIEW ASSESSMENT</a>';
- $("#Side-Assesment").html(sideAssessmentView);
+  const sideAssessmentView = '<h2 style="font-size: 16px; margin-bottom: 15px; font-weight: 700;">' + levelName + ' Maths - ' + levelQNs + ' MCQs' + '</h2><a class="btn btn-primary" onclick="viewAssessment()" data-toggle="modal" data-target="#assessModal">VIEW ASSESSMENT</a>';
+  $("#Side-Assesment").html(sideAssessmentView);
  // quizDate = new Date('yr');
 
-};
+}
 
 function fetchJSON(linkHead, linkTail) {
-  var linkHead = linkHead;
-  var linkTail = linkTail;
-  var link = linkHead+linkTail;
-  var ourRequest = new XMLHttpRequest();
+  const link = linkHead + linkTail;
+  const ourRequest = new XMLHttpRequest();
   ourRequest.open('GET', link);
   ourRequest.onload = function(){
-    var ourData = JSON.parse(ourRequest.responseText);
+    const ourData = JSON.parse(ourRequest.responseText);
     // console.log(ourData);
     renderHTML(ourData);
   };
@@ -85,19 +77,19 @@ function fetchJSON(linkHead, linkTail) {
 
 function renderHTML(data) {
   // var mainArea = getElementByID("main-area");
-  var htmlString = '';
-  var countNo = 1;
-  var length = data.length;
+  let htmlString = '';
+  let countNo = 1;
+  const length = data.length;
   for(i = 0; i < length; i++){
 
-    var optionE = '';
-    if (data[i].type == 'quiz') {
-      var objObject = {
-        "num" : countNo,
-        "no" : data[i].no,
-        "answer" : data[i].answer,
-        "choice" : "",
-        "mark" : 0
+    const optionE = '';
+    if (data[i].type === 'quiz') {
+      const objObject = {
+        "num": countNo,
+        "no": data[i].no,
+        "answer": data[i].answer,
+        "choice": "",
+        "mark": 0
       };
       objSet.push(objObject);
       //console.log(objSet);
@@ -105,12 +97,9 @@ function renderHTML(data) {
       htmlString += '<div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title"><a data-toggle="collapse" data-parent="#main-area" href="#collapse'+data[i].no+'" class="collapsed">#'+countNo+'. '+data[i].question+' <i class="fa fa-angle-down right icon-collapsed"><span class="text-primary">Choose:</span></i><i class="fa fa-angle-up right icon-expanded"><span class="text-primary"></span></i><h5 class="text-primary">Choice:<span id="choice-q'+data[i].no+'"></span></h5></a></h4></div><div id="collapse'+data[i].no+'" class="panel-collapse collapse"><div class="panel-body"><form class=""><label><input type="radio" name="obj-q'+data[i].no+'" value="A" onclick="choose(\'A\', '+countNo+')">A. '+data[i].options.A+' </label><br/><label><input type="radio" name="obj-q'+data[i].no+'" value="B" onclick="choose(\'B\', '+countNo+')">B. '+data[i].options.B+' </label><br/><label><input type="radio" name="obj-q'+data[i].no+'" value="C" onclick="choose(\'C\', '+countNo+')">C. '+data[i].options.C+' </label><br/><label><input type="radio" name="obj-q'+data[i].no+'" value="D" onclick="choose(\'D\', '+countNo+')">D. '+data[i].options.D+' </label>'+optionE+'</form></div></div></div>';
 
       countNo++;
-    } else if(data[i].type == 'instructions'){
+    } else if(data[i].type === 'instructions'){
       htmlString += '<br/><p>'+data[i].note+'</p><br/>';
-    } else if(data[i].type == 'essay'){
-        htmlString += '<div class="panel panel-default"><div class="panel-body"><p class="panel-content">#'+countNo+'. '+data[i].problem+'</p></div></div>';
-        countNo++;
-    } else if(data[i].type == 'title'){
+    } else if(data[i].type === 'title'){
       htmlString += '<br/><center><h3><b>'+data[i].note+'<b></h3></center><br/>';
     }
 
@@ -118,7 +107,7 @@ function renderHTML(data) {
 
   }
 
-  // View AssessMent Button
+  // View Assessment Button
   htmlString += '<div class="margin-bottom-30"></div><button onclick="viewAssessment()" data-toggle="modal" data-target="#assessModal" class="btn btn-primary btn-block"><i class="fa fa-eye"></i> VIEW ASSESSMENT</button>';
 
 
@@ -126,24 +115,22 @@ function renderHTML(data) {
 }
 
 function choose(choice, num){
-  var choice = choice;
-  var num = num;
-  var findNum = num-1;
-  var choiceSpot = "choice-q"+objSet[findNum].no;
+  const findNum = num - 1;
+  const choiceSpot = "choice-q" + objSet[findNum].no;
   objSet[findNum].choice = choice;
    $('#'+choiceSpot).html(choice);
   // var quizObject = objSet[findNum];
-  if (choice == objSet[findNum].answer) {
+  if (choice === objSet[findNum].answer) {
     objSet[findNum].mark = 1;
     console.log("Correct Choice: "+mode);
-    if (mode != "focus") {
+    if (mode !== "focus") {
       console.log("Correct Choice: "+mode);
       toastr['success']("Correct Choice");
     }
   } else {
     objSet[findNum].mark = 0;
     console.log("Wrong Choice: "+mode);
-    if (mode != "focus") {
+    if (mode !== "focus") {
       console.log("Wrong Choice: "+mode);
       toastr['error']("Wrong Choice");
     }
@@ -153,45 +140,33 @@ function choose(choice, num){
 
 
 function setCookie(cname, cvalue, exdays) {
-  var d = new Date();
+  const d = new Date();
   d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-  var expires = "expires="+d.toUTCString();
+  const expires = "expires=" + d.toUTCString();
   document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
 
 function getCookie(cname) {
-  var name = cname + "=";
-  var ca = document.cookie.split(';');
-  for(var i = 0; i < ca.length; i++) {
-    var c = ca[i];
-    while (c.charAt(0) == ' ') {
+  const name = cname + "=";
+  const ca = document.cookie.split(';');
+  for(let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) === ' ') {
       c = c.substring(1);
     }
-    if (c.indexOf(name) == 0) {
+    if (c.indexOf(name) === 0) {
       return c.substring(name.length, c.length);
     }
   }
   return "";
 }
 
-// function checkCookie() {
-//   var user = getCookie("username");
-//   if (user != "") {
-//     alert("Welcome again " + user);
-//   } else {
-//     user = prompt("Please enter your name:", "");
-//     if (user != "" && user != null) {
-//       setCookie("username", user, 365);
-//     }
-//   }
-// }
-
 function checkAccount() {
   studentName = getCookie("studentName");
-  if (studentName != "") {
+  if (studentName !== "") {
     getReady();
   recordList = getCookie("recordList");
-    if (recordList != "") {
+    if (recordList !== "") {
       recordList = JSON.parse(getCookie("recordList"));
       // recordListView(recordList);
     } else {
@@ -204,9 +179,9 @@ function checkAccount() {
 
 function registerAccount() {
   // $("#startupModal").modal("dismiss");
-  var studentInput = $("#startupInput").val();
+  const studentInput = $("#startupInput").val();
   console.log("Input: "+studentInput);
-  if (studentInput != "" && studentInput != null) {
+  if (studentInput !== "" && studentInput != null) {
     // setting cookie for 3 years
     setCookie("studentName", studentInput, 1095);
     checkAccount();
@@ -231,8 +206,8 @@ function getReady(){
 }
 
 function checkMode(){
-  var newMode = getCookie("mode");
-  if (newMode !="") {
+  const newMode = getCookie("mode");
+  if (newMode !=="") {
     mode = "focus";
   } else {
     mode = "interactive";
@@ -245,35 +220,34 @@ function activateMode(){
   showRecordView()
   mode = checkMode();
   console.log("The Mode is:"+mode);
-  if (mode == "interactive") {
+  if (mode === "interactive") {
     $(".focus-view").hide();
-  } else if (mode == "focus") {
+  } else if (mode === "focus") {
     $(".interactive-view").hide();
   }
 }
 
 function changeMode(newMode){
-  var newMode = newMode;
-  if (newMode == "interactive") {
+  if (newMode === "interactive") {
     setCookie("mode", "", -1100);
-  } else if (newMode == "focus") {
+  } else if (newMode === "focus") {
     setCookie("mode", "focus", 1095);
   }
   window.location.reload();
 }
 
 function viewAssessment(){
-    var score = 0;
-    var mark = '';
-    var quizColumns = '';
-    var counter = 0;
-    var sheetHeading = '<h3 class="heading"><i class="fa fa-square"></i>'+levelName+' '+levelYear+'</h3><a href="#" class="right">Your choices and results are as follows.</a>';
-    $("#sheet-heading").html(sheetHeading);
-    var sheetBody = '';
-    testDate = new Date();
+  let score = 0;
+  let mark = '';
+  let quizColumns = '';
+  let counter = 0;
+  const sheetHeading = '<h3 class="heading"><i class="fa fa-square"></i>' + levelName + ' - ' + levelQNs + ' Questions </h3><a href="#" class="right">Your choices and results are as follows.</a>';
+  $("#sheet-heading").html(sheetHeading);
+  let sheetBody = '';
+  testDate = new Date();
     toTime =testDate.getHours()+':'+testDate.getMinutes();
-    var length = objSet.length;
-    for (var i = 0; i < length; i++) {
+  const length = objSet.length;
+  for (let i = 0; i < length; i++) {
       score += objSet[i].mark;
       counter++;
       // objSet[i].num;
@@ -287,16 +261,16 @@ function viewAssessment(){
 
       quizColumns += '<div class="col-md-6 col-sm-6"><h4><i class="fa fa-hashtag"></i>'+counter+'. '+objSet[i].choice+'  '+mark+'</h4></div>'
     }
-    var recordObject = {
-      "levelName" : levelName,
-      "levelYear" : levelYear,
-      "score" : score,
-      "total" : length,
-      "date" : quizDate,
-      "fromTime" : fromTime,
-      "toTime" : toTime
-    };
-    recordList.push(recordObject);
+  const recordObject = {
+    "levelName": levelName,
+    "levelQNs": levelQNs,
+    "score": score,
+    "total": length,
+    "date": quizDate,
+    "fromTime": fromTime,
+    "toTime": toTime
+  };
+  recordList.push(recordObject);
     saveRecords();
 
     sheetBody = '<h1 class="page-title text-primary"> <strong>Score:</strong> '+score+' out of <strong>'+length+'</strong></h1><div class="row">'+quizColumns+'</div><p><strong>Date:</strong>'+quizDate+' From: '+fromTime+' to '+toTime+'</p>';
@@ -311,18 +285,18 @@ function viewAssessment(){
 }
 
 function saveRecords(){
-  var newRecordList = JSON.stringify(recordList)
+  const newRecordList = JSON.stringify(recordList);
   console.log(newRecordList);
   setCookie("recordList", newRecordList, 1095);
   showRecordView();
 }
 
 function showRecordView(){
-  var count = recordList.length;
-  var listItems = '<li class="header"><strong>You have <span id="assessment-count"> '+count+' </span> Assessment Records</strong></li>';
+  const count = recordList.length;
+  let listItems = '<li class="header"><strong>You have <span id="assessment-count"> ' + count + ' </span> Assessment Records</strong></li>';
   // $("#assessment-count").html(count);
-  for (var i = 0; i < count; i++) {
-    listItems += '<li><a href="#"><div class="media"><div class="media-left"><i class="fa fa-fw fa-flag-checkered text-muted"></i></div><div class="media-body"><p class="text"><strong><span>'+recordList[i].levelName+'</span></strong> <span>'+recordList[i].levelYear+' on '+recordList[i].date+' '+recordList[i].fromTime+' - '+recordList[i].toTime+'</span></p><span class="timestamp">Score: '+recordList[i].score+' out of '+recordList[i].total+'</span></div></div></a></li>';
+  for (let i = 0; i < count; i++) {
+    listItems += '<li><a href="#"><div class="media"><div class="media-left"><i class="fa fa-fw fa-flag-checkered text-muted"></i></div><div class="media-body"><p class="text"><strong><span>'+recordList[i].levelName+'</span></strong> <span>'+recordList[i].levelQNs+' on '+recordList[i].date+' '+recordList[i].fromTime+' - '+recordList[i].toTime+'</span></p><span class="timestamp">Score: '+recordList[i].score+' out of '+recordList[i].total+'</span></div></div></a></li>';
   }
   listItems += '<li class="footer"><a onclick="resetRecords()" class="more">Clear Records</a></li>';
   $("#records-view").html(listItems);
