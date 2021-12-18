@@ -140,15 +140,15 @@
 					<div class="modal-content">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-							<h4 class="modal-title" id="myModalLabel">About EaseStudy</h4>
+							<h4 class="modal-title" id="myModalLabel">About JiltMaths</h4>
 						</div>
 						<div class="modal-body">
 							<img src="static/assets/img/about.gif" alt="about" class="img img-responsive img-fluid"/>
 							<div class="navbar-brand">
-								<a href="./" class="text-larger">EaseStudy
+								<a href="./" class="text-larger">JiltMaths
 			          </a>
 							</div>
-							<p>is an offline-first Progressive Web Application take on as a project by Benjamin Owusu and Edmund Oakley Inkumsah. The two sought to provide an app which makes prepping for WASSCE as easy as it can be. You'll find out that it's quite unique from other websites and apps out there.</p>
+							<p>is a Web Application take on as a project by Kelvin, Phillip and Seth as an aptitude test for Jilt Technologies. We to provide an app which makes practicing basic maths as easy as it can be. You'll find out that it's quite unique from other websites and apps out there.</p>
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times-circle"></i> Close</button>
@@ -173,11 +173,10 @@
 							<form class="search-form help-search-form">
 								<input id="startupInput" name="studentInput" class="form-control" placeholder="How can I call You?" type="text">
 								<button type="button" class="btn btn-default"><i class="fa fa-fw fa-user"></i></button>
-								<label for="studentName">NB: Needed for Identifying you and your records. <br> Hence, personalizing your experience on EaseStudy</label>
+								<label for="studentName">NB: Needed for Identifying you and your records. <br> Hence, personalizing your experience on JiltMaths</label>
 							</form>
 						</div>
-						<div class="modal-footer">
-
+						<div class="modal-footer">3
 							<!-- <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times-circle"></i> Close</button> -->
 							<button type="button" onclick="registerAccount()" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-check-circle"></i> Get Started</button>
 						</div>
@@ -322,10 +321,10 @@
                     $levels = ['1','2','3','4','5','6'];
 
                     foreach ($levels as $level) {
-                        $level_name = 'Level'.$level;
+                        $level_name = 'level'.$level;
                         ?>
                     <div class="col-md-6 col-sm-6">
-                        <a href="#collapseCardMaths" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardMaths">
+                        <a href="#collapse<?=$level_name?>" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardMaths">
                             <div class="number-chart">
                                 <!-- <div class="mini-stat">
                                   <div id="" class="">level</div>
@@ -339,7 +338,7 @@
                                     <h4 class="m-0 font-weight-bold text-primary">Get Started</h4>
                         </a>
                         <!-- Card Content - Collapse -->
-                        <div class="collapse" id="collapseCardMaths">
+                        <div class="collapse" id="collapse<?=$level_name?>">
                             <div class="card-body m-3 ml-3 mr-3 row">
                                 <div class="col-md-2 col-sm-1 col-xs-1">
 
@@ -392,7 +391,7 @@
 			  </div>
 			  <!-- ACCORDION -->
 			  <div class="panel-content">
-			    <h2 class="heading"><i class="fa fa-square"></i>Objectives:</h2>
+			    <h2 class="heading"><i class="fa fa-square"></i>Multi Choice Questions (MCQs):</h2>
 
 			    <p id="objectives-instructions" >Instructions students need to follow</p><br/>
 			    <div class="panel-group" id="main-area">
@@ -401,7 +400,7 @@
 			    <div class="margin-bottom-30"></div>
 
 			  </div>
-			  <!-- END ACCRODION -->
+			  <!-- END ACCORDION -->
 
 			</div>
 			<!-- End of Questions & Answers -->
